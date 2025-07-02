@@ -1,6 +1,6 @@
 class MemosController < ApplicationController
   def index
-    @memos = Memo.all
+    @memos = params[:search].present? ? Memo.search_by_keyword(params[:search]) : Memo.all
   end
 
   def create

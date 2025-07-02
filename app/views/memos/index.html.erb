@@ -4,7 +4,20 @@
 
 <h1>Memos</h1>
 
+<div class="search-form">
+  <%= form_with url: memos_path, method: :get, local: true do |form| %>
+    <%= form.text_field :search, placeholder: "Pesquisar por título ou conteúdo...", value: params[:search] %>
+    <%= form.submit "Pesquisar" %>
+    <% if params[:search].present? %>
+      <%= link_to "Limpar", memos_path %>
+    <% end %>
+  <% end %>
+</div>
+
 <div id="memos">
+  <% if params[:search].present? %>
+    <p><strong>Resultados para:</strong> "<%= params[:search] %>" (<%= @memos.count %> <%= @memos.count == 1 ? 'resultado' : 'resultados' %>)</p>
+  <% end %>
   <% @memos.each do |memo| %>
     <%= render memo %>
     <p>
