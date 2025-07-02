@@ -4,11 +4,12 @@ class MemosController < ApplicationController
   end
 
   def create
-    @memo = Memo.new(memo_params)
-    if @memo.save
+    result = MemoCreator.call(memo_params)
+    if result.success?
       redirect_to memos_path, notice: "Nota criada com sucesso."
     else
-      render :new
+      @memo = result.model
+      render :new, alert: result.errors
     end
   end
 
