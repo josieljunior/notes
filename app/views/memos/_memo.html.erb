@@ -1,4 +1,4 @@
-<div id="<%= dom_id memo %>">
+<div id="<%= dom_id memo %>" class="<%= 'archived-memo' if memo.archived? %>">
   <p>
     <strong>Title:</strong>
     <%= memo.title %>
@@ -17,5 +17,4 @@
       <% end %>
     </p>
   <% end %>
-
 </div>

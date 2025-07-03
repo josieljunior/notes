@@ -4,6 +4,14 @@
 
 <h1>Memos</h1>
 
+<div class="archive-toggle">
+  <% if @show_archived %>
+    <%= link_to "Ver Memos Ativos", memos_path, class: "archive-link" %>
+  <% else %>
+    <%= link_to "Ver Memos Arquivados", memos_path(archived: true), class: "archive-link" %>
+  <% end %>
+</div>
+
 <div class="search-form">
   <%= form_with url: memos_path, method: :get, local: true do |form| %>
     <%= form.text_field :search, placeholder: "Pesquisar por título ou conteúdo...", value: params[:search] %>
@@ -31,12 +39,21 @@
     <p><strong>Resultados para:</strong> "<%= params[:search] %>" (<%= @memos.count %> <%= @memos.count == 1 ? 'resultado' : 'resultados' %>)</p>
   <% elsif params[:tag].present? %>
     <p><strong>Memos com a tag:</strong> "<%= params[:tag] %>" (<%= @memos.count %> <%= @memos.count == 1 ? 'memo' : 'memos' %>)</p>
+  <% elsif @show_archived %>
+    <p><strong>Memos Arquivados:</strong> (<%= @memos.count %> <%= @memos.count == 1 ? 'memo' : 'memos' %>)</p>
+  <% else %>
+    <p><strong>Memos Ativos:</strong> (<%= @memos.count %> <%= @memos.count == 1 ? 'memo' : 'memos' %>)</p>
   <% end %>
   <% @memos.each do |memo| %>
     <%= render memo %>
     <p>
       <%= link_to "Ver", memo %> |
       <%= link_to "Editar", edit_memo_path(memo) %> |
+      <% if memo.archived? %>
+        <%= button_to "Desarquivar", unarchive_memo_path(memo), method: :patch, class: "unarchive-button", data: { confirm: "Tem certeza que deseja desarquivar este memo?" } %> |
+      <% else %>
+        <%= button_to "Arquivar", archive_memo_path(memo), method: :patch, class: "archive-button", data: { confirm: "Tem certeza que deseja arquivar este memo?" } %> |
+      <% end %>
       <%= link_to "Excluir", memo, method: :delete, data: { confirm: "Tem certeza?" } %>
     </p>
   <% end %>

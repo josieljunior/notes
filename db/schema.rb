@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_03_011756) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_03_014035) do
   create_table "memos", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "archived", default: false, null: false
   end
 
   create_table "memos_tags", id: false, force: :cascade do |t|

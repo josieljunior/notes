@@ -4,15 +4,20 @@ class Memo < ApplicationRecord
   validates :title, presence: true
   validates :content, presence: true
 
+  scope :active, -> { where(archived: false) }
+  scope :archived, -> { where(archived: true) }
+  scope :tagged_with, ->(tag_name) {
+    joins(:tags).where(tags: { name: tag_name.downcase.strip })
+  }
   scope :search_by_keyword, ->(query) {
     where("title LIKE ? OR content LIKE ?", "%#{query}%", "%#{query}%") if query.present?
   }
 
-  scope :tagged_with, ->(tag_name) {
-    joins(:tags).where(tags: { name: tag_name.downcase.strip })
-  }
+  def archive!
+    update!(archived: true)
+  end
 
-  def tag_list
-    tags.pluck(:name).join(", ")
+  def unarchive!
+    update!(archived: false)
   end
 end
