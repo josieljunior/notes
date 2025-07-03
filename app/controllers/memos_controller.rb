@@ -1,14 +1,11 @@
 class MemosController < ApplicationController
   def index
-    base_scope = params[:archived] == "true" ? Memo.archived : Memo.active
+    @memos = MemoSearch.find_by_search_and_tag(
+      search: params[:search],
+      tag: params[:tag],
+      archived: params[:archived] == "true"
+    ).includes(:tags)
 
-    @memos = if params[:search].present?
-               base_scope.search_by_keyword(params[:search])
-    elsif params[:tag].present?
-               base_scope.tagged_with(params[:tag])
-    else
-               base_scope.all
-    end
     @tags = Tag.ordered
     @show_archived = params[:archived] == "true"
   end
