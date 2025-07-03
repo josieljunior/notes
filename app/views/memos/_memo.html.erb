@@ -9,4 +9,13 @@
     <%= memo.content %>
   </p>
 
+  <% if memo.tags.any? %>
+    <p>
+      <strong>Tags:</strong>
+      <% memo.tags.each do |tag| %>
+        <%= link_to tag.name, memos_path(tag: tag.name), class: "tag" %>
+      <% end %>
+    </p>
+  <% end %>
+
 </div>

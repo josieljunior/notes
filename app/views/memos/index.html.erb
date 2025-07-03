@@ -14,14 +14,30 @@
   <% end %>
 </div>
 
+<% if @tags.any? %>
+  <div class="tags-filter">
+    <h3>Filtrar por tags:</h3>
+    <% @tags.each do |tag| %>
+      <%= link_to tag.name, memos_path(tag: tag.name), class: "tag-filter #{'active' if params[:tag] == tag.name}" %>
+    <% end %>
+    <% if params[:tag].present? %>
+      <%= link_to "Todas", memos_path, class: "tag-filter clear" %>
+    <% end %>
+  </div>
+<% end %>
+
 <div id="memos">
   <% if params[:search].present? %>
     <p><strong>Resultados para:</strong> "<%= params[:search] %>" (<%= @memos.count %> <%= @memos.count == 1 ? 'resultado' : 'resultados' %>)</p>
+  <% elsif params[:tag].present? %>
+    <p><strong>Memos com a tag:</strong> "<%= params[:tag] %>" (<%= @memos.count %> <%= @memos.count == 1 ? 'memo' : 'memos' %>)</p>
   <% end %>
   <% @memos.each do |memo| %>
     <%= render memo %>
     <p>
-      <%= link_to "Show this memo", memo %>
+      <%= link_to "Ver", memo %> |
+      <%= link_to "Editar", edit_memo_path(memo) %> |
+      <%= link_to "Excluir", memo, method: :delete, data: { confirm: "Tem certeza?" } %>
     </p>
   <% end %>
 </div>
