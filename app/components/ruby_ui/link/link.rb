@@ -76,6 +76,8 @@ module RubyUI
       ]
     end
 
+    def none_classes;end
+
     def default_classes
       case @variant
       when :primary then primary_classes
@@ -84,6 +86,7 @@ module RubyUI
       when :destructive then destructive_classes
       when :outline then outline_classes
       when :ghost then ghost_classes
+      when :none then none_classes
       end
     end
 

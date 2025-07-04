@@ -8,7 +8,7 @@ module Views
 
         html do
           head do
-            title { "Melhores Corretoras de Investimento" }
+            title { "Notas" }
 
             meta name: "viewport", content: "width=device-width,initial-scale=1"
             meta name: "apple-mobile-web-app-capable", content: "yes"
@@ -29,7 +29,6 @@ module Views
           end
 
           body do
-            # render Shared::Navbar.new
             main(class: "container mx-auto mt-28 px-5 flex", &block)
           end
         end

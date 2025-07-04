@@ -11,7 +11,7 @@ class Views::Memos::Form < Views::Base
       if @memo.errors.any?
         div(class: "mb-6 p-4 bg-red-50 border border-red-200 rounded-lg") do
           h3(class: "text-lg font-semibold text-red-800 mb-2") do
-            "#{@memo.errors.count} erro#{@memo.errors.count > 1 ? 's' : ''} #{@memo.errors.count > 1 ? 'impediram' : 'impediu'} que este memo fosse salvo:"
+            "#{@memo.errors.count} erro#{@memo.errors.count > 1 ? 's' : ''} #{@memo.errors.count > 1 ? 'impediram' : 'impediu'} que esta nota fosse salva:"
           end
           ul(class: "list-disc list-inside text-red-700 space-y-1") do
             @memo.errors.full_messages.each do |message|
@@ -27,7 +27,7 @@ class Views::Memos::Form < Views::Base
           Input(
             name: "memo[title]",
             value: @memo.title,
-            placeholder: "Digite o título do memo...",
+            placeholder: "Digite o título da nota...",
             class: "w-full"
           )
         end
@@ -37,7 +37,7 @@ class Views::Memos::Form < Views::Base
           Textarea(
             name: "memo[content]",
             value: @memo.content,
-            placeholder: "Digite o conteúdo do memo...",
+            placeholder: "Digite o conteúdo da nota...",
             rows: 8,
             class: "w-full"
           )
@@ -69,7 +69,7 @@ class Views::Memos::Form < Views::Base
 
         div(class: "flex gap-4 pt-4") do
           Button(variant: :primary, type: :submit) do
-            @memo.persisted? ? "Atualizar Memo" : "Criar Memo"
+            @memo.persisted? ? "Atualizar Nota" : "Criar Nota"
           end
 
           Link(href: @memo.persisted? ? memo_path(@memo) : memos_path, variant: :outline) { "Cancelar" }

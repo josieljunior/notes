@@ -13,7 +13,7 @@ class Views::Memos::Show < Views::Base
       end
 
       div(class: "flex items-center space-x-2 text-sm text-gray-600") do
-        Link(href: memos_path, variant: :link, size: :sm) { "← Voltar para Memos" }
+        Link(href: memos_path, variant: :link, size: :sm) { "← Voltar para Notas" }
       end
 
       Card(class: "p-8") do
@@ -30,7 +30,7 @@ class Views::Memos::Show < Views::Base
 
           div(class: "mt-4 flex items-center space-x-4 text-sm text-gray-500") do
             if @memo.archived?
-              Badge(variant: :secondary) { "Arquivado" }
+              Badge(variant: :gray) { "Arquivado" }
             else
               Badge(variant: :success) { "Ativo" }
             end
@@ -54,7 +54,7 @@ class Views::Memos::Show < Views::Base
         h3(class: "text-lg font-semibold mb-4") { "Ações" }
 
         div(class: "flex flex-wrap gap-4") do
-          Link(href: edit_memo_path(@memo), variant: :primary) { "Editar Memo" }
+          Link(href: edit_memo_path(@memo), variant: :primary) { "Editar Nota" }
 
           if @memo.archived?
             Form(action: unarchive_memo_path(@memo), method: :patch) do
@@ -67,13 +67,9 @@ class Views::Memos::Show < Views::Base
           end
 
           Form(action: memo_path(@memo), method: :delete) do
-            Button(type: :submit, variant: :destructive) { "Excluir Memo" }
+            Button(type: :submit, variant: :destructive) { "Excluir Nota" }
           end
         end
-      end
-
-      div(class: "text-center pt-4") do
-        Link(href: new_memo_path, variant: :outline, size: :lg) { "Criar Novo Memo" }
       end
     end
   end

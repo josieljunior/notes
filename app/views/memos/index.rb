@@ -18,13 +18,15 @@ class Views::Memos::Index < Views::Base
       end
 
       div(class: "text-center space-y-4") do
-        h1(class: "text-4xl font-bold text-gray-900") { "Memos" }
+        h1(class: "text-4xl font-bold text-gray-900") { "Notas" }
 
-        div(class: "flex justify-center") do
+        div(class: "flex justify-center gap-2") do
+          Link(href: new_memo_path, variant: :primary, size: :lg) { "Criar Nova Nota" }
+
           if @show_archived
-            Link(href: memos_path, variant: :primary) { "Ver Memos Ativos" }
+            Link(href: memos_path, variant: :secondary, size: :lg) { "Ver Notas Ativas" }
           else
-            Link(href: memos_path(archived: true), variant: :secondary) { "Ver Memos Arquivados" }
+            Link(href: memos_path(archived: true), variant: :secondary, size: :lg) { "Ver Notas Arquivadas" }
           end
         end
       end
@@ -59,7 +61,7 @@ class Views::Memos::Index < Views::Base
           div(class: "flex flex-wrap gap-2 justify-center") do
             @tags.each do |tag|
               active_variant = params[:tag] == tag.name ? :primary : :outline
-              Link(href: memos_path(tag: tag.name)) do
+              Link(href: memos_path(tag: tag.name), variant: :none) do
                 Badge(variant: active_variant, size: :lg) { tag.name }
               end
             end
@@ -73,37 +75,11 @@ class Views::Memos::Index < Views::Base
         end
       end
 
-      div(class: "text-center") do
-        if params[:search].present?
-          p(class: "text-lg text-gray-600") do
-            strong { "Resultados para: " }
-            span(class: "text-blue-600") { "\"#{params[:search]}\"" }
-            span { " (#{@memos.count} #{@memos.count == 1 ? 'resultado' : 'resultados'})" }
-          end
-        elsif params[:tag].present?
-          p(class: "text-lg text-gray-600") do
-            strong { "Memos com a tag: " }
-            Badge(variant: :primary) { params[:tag] }
-            span { " (#{@memos.count} #{@memos.count == 1 ? 'memo' : 'memos'})" }
-          end
-        elsif @show_archived
-          p(class: "text-lg text-gray-600") do
-            strong { "Memos Arquivados: " }
-            span { "#{@memos.count} #{@memos.count == 1 ? 'memo' : 'memos'}" }
-          end
-        else
-          p(class: "text-lg text-gray-600") do
-            strong { "Memos Ativos: " }
-            span { "#{@memos.count} #{@memos.count == 1 ? 'memo' : 'memos'}" }
-          end
-        end
-      end
-
       if @memos.any?
         div(class: "grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4") do
           @memos.each do |memo|
             link_to memo do
-              div(class: "group hover:shadow-lg transition-shadow duration-200 cursor-pointer") do
+              div(class: "group hover:shadow-lg transition-shadow duration-200 cursor-pointer h-full") do
                 render Views::Memos::Card.new(memo)
               end
             end
@@ -112,14 +88,10 @@ class Views::Memos::Index < Views::Base
       else
         Card(class: "p-12 text-center") do
           div(class: "space-y-4") do
-            h3(class: "text-xl font-semibold text-gray-600") { "Nenhum memo encontrado" }
-            p(class: "text-gray-500") { "Que tal criar o seu primeiro memo?" }
+            h3(class: "text-xl font-semibold text-gray-600") { "Nenhuma nota encontrada" }
+            p(class: "text-gray-500") { "Que tal criar a sua primeira nota?" }
           end
         end
-      end
-
-      div(class: "text-center pt-8") do
-        Link(href: new_memo_path, variant: :primary, size: :lg) { "Criar Novo Memo" }
       end
     end
   end
