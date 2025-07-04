@@ -35,6 +35,11 @@ class MemosController < ApplicationController
 
   def show
     @memo = Memo.find(params[:id])
+
+    render Views::Memos::Show.new(
+      memo: @memo,
+      notice: flash[:notice]
+    )
   end
 
   def edit
@@ -56,6 +61,20 @@ class MemosController < ApplicationController
     @memo.destroy
     redirect_to memos_path, notice: "Memo deletado com sucesso."
   end
+
+  def archive
+    @memo = Memo.find(params[:id])
+    @memo.archive!
+    redirect_to @memo, notice: "Memo arquivado com sucesso."
+  end
+
+  def unarchive
+    @memo = Memo.find(params[:id])
+    @memo.unarchive!
+    redirect_to @memo, notice: "Memo desarquivado com sucesso."
+  end
+
+  private
 
   def memo_params
     params.require(:memo).permit(:title, :content, tag_ids: [])

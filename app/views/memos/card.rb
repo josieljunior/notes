@@ -11,12 +11,10 @@ class Views::Memos::Card < Views::Base
 
       CardContent(class: "flex-1") do
         div(class: "space-y-3") do
-          # Conteúdo do memo
           p(class: "text-sm text-muted-foreground leading-relaxed") do
             @memo.content
           end
 
-          # Tags
           if @memo.tags.any?
             div(class: "flex flex-wrap gap-2") do
               @memo.tags.each do |tag|
