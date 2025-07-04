@@ -11,8 +11,10 @@ class Views::Memos::Card < Views::Base
 
       CardContent(class: "flex-1") do
         div(class: "space-y-3") do
-          p(class: "text-sm text-muted-foreground leading-relaxed") do
-            @memo.content
+          div(class: "max-h-32 overflow-hidden") do
+            p(class: "text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap") do
+              @memo.content
+            end
           end
 
           if @memo.tags.any?
