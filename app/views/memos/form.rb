@@ -72,9 +72,7 @@ class Views::Memos::Form < Views::Base
             @memo.persisted? ? "Atualizar Memo" : "Criar Memo"
           end
 
-          link_to(@memo.persisted? ? @memo : memos_path) do
-            Button(variant: :outline) { "Cancelar" }
-          end
+          Link(href: @memo.persisted? ? memo_path(@memo) : memos_path, variant: :outline) { "Cancelar" }
         end
       end
     end

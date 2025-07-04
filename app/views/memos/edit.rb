@@ -7,9 +7,7 @@ class Views::Memos::Edit < Views::Base
   def view_template
     div(class: "max-w-4xl mx-auto space-y-8") do
       div(class: "flex items-center space-x-2 text-sm text-gray-600") do
-        link_to @memo do
-          Button(variant: :link, size: :sm) { "← Voltar para Memo" }
-        end
+        Link(href: memo_path(@memo), variant: :link, size: :sm) { "← Voltar para Memo" }
       end
 
       div(class: "text-center space-y-4") do

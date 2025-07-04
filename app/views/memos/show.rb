@@ -13,9 +13,7 @@ class Views::Memos::Show < Views::Base
       end
 
       div(class: "flex items-center space-x-2 text-sm text-gray-600") do
-        link_to memos_path do
-          Button(variant: :link, size: :sm) { "← Voltar para Memos" }
-        end
+        Link(href: memos_path, variant: :link, size: :sm) { "← Voltar para Memos" }
       end
 
       Card(class: "p-8") do
@@ -25,16 +23,16 @@ class Views::Memos::Show < Views::Base
           if @memo.tags.any?
             div(class: "flex flex-wrap gap-2") do
               @memo.tags.each do |tag|
-                Badge(color: :primary) { "##{tag.name}" }
+                Badge(variant: :primary) { "##{tag.name}" }
               end
             end
           end
 
           div(class: "mt-4 flex items-center space-x-4 text-sm text-gray-500") do
             if @memo.archived?
-              Badge(color: :secondary) { "Arquivado" }
+              Badge(variant: :secondary) { "Arquivado" }
             else
-              Badge(color: :success) { "Ativo" }
+              Badge(variant: :success) { "Ativo" }
             end
 
             span { "Criado em #{@memo.created_at.strftime('%d/%m/%Y às %H:%M')}" }
@@ -56,42 +54,26 @@ class Views::Memos::Show < Views::Base
         h3(class: "text-lg font-semibold mb-4") { "Ações" }
 
         div(class: "flex flex-wrap gap-4") do
-          link_to edit_memo_path(@memo) do
-            Button(variant: :primary) { "Editar Memo" }
-          end
+          Link(href: edit_memo_path(@memo), variant: :primary) { "Editar Memo" }
 
           if @memo.archived?
-            button_to "Desarquivar",
-                      unarchive_memo_path(@memo),
-                      method: :patch,
-                      class: "whitespace-nowrap inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-opacity-80 px-4 py-2 h-9 text-sm",
-                      data: {
-                        confirm: "Tem certeza que deseja desarquivar este memo?"
-                      }
+            Form(action: unarchive_memo_path(@memo), method: :patch) do
+              Button(type: :submit, variant: :secondary) { "Desarquivar" }
+            end
           else
-            button_to "Arquivar",
-                      archive_memo_path(@memo),
-                      method: :patch,
-                      class: "whitespace-nowrap inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground px-4 py-2 h-9 text-sm",
-                      data: {
-                        confirm: "Tem certeza que deseja arquivar este memo?"
-                      }
+            Form(action: archive_memo_path(@memo), method: :patch) do
+              Button(type: :submit, variant: :outline) { "Arquivar" }
+            end
           end
 
-          button_to "Excluir Memo",
-                    memo_path(@memo),
-                    method: :delete,
-                    class: "whitespace-nowrap inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 px-4 py-2 h-9 text-sm",
-                    data: {
-                      confirm: "Tem certeza que deseja excluir este memo? Esta ação não pode ser desfeita."
-                    }
+          Form(action: memo_path(@memo), method: :delete) do
+            Button(type: :submit, variant: :destructive) { "Excluir Memo" }
+          end
         end
       end
 
       div(class: "text-center pt-4") do
-        link_to new_memo_path do
-          Button(variant: :outline, size: :lg) { "Criar Novo Memo" }
-        end
+        Link(href: new_memo_path, variant: :outline, size: :lg) { "Criar Novo Memo" }
       end
     end
   end

@@ -18,7 +18,7 @@ class Views::Memos::Card < Views::Base
           if @memo.tags.any?
             div(class: "flex flex-wrap gap-2") do
               @memo.tags.each do |tag|
-                Badge(color: :primary, size: :sm) { "##{tag.name}" }
+                Badge(variant: :primary, size: :sm) { "#{tag.name}" }
               end
             end
           end

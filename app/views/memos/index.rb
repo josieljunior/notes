@@ -22,13 +22,9 @@ class Views::Memos::Index < Views::Base
 
         div(class: "flex justify-center") do
           if @show_archived
-            link_to memos_path do
-              Button(variant: :primary) { "Ver Memos Ativos" }
-            end
+            Link(href: memos_path, variant: :primary) { "Ver Memos Ativos" }
           else
-            link_to memos_path(archived: true) do
-              Button(variant: :secondary) { "Ver Memos Arquivados" }
-            end
+            Link(href: memos_path(archived: true), variant: :secondary) { "Ver Memos Arquivados" }
           end
         end
       end
@@ -51,9 +47,7 @@ class Views::Memos::Index < Views::Base
 
           if params[:search].present?
             div(class: "flex justify-start") do
-              link_to memos_path do
-                Button(variant: :link, size: :sm) { "Limpar" }
-              end
+              Link(href: memos_path, variant: :link, size: :sm) { "Limpar" }
             end
           end
         end
@@ -62,17 +56,17 @@ class Views::Memos::Index < Views::Base
       if @tags.any?
         Card(class: "p-6") do
           h3(class: "text-lg font-semibold mb-4") { "Filtrar por tags:" }
-          div(class: "flex flex-wrap gap-2") do
+          div(class: "flex flex-wrap gap-2 justify-center") do
             @tags.each do |tag|
-              active_class = params[:tag] == tag.name ? "primary" : "outline"
-              link_to memos_path(tag: tag.name) do
-                Badge(color: active_class.to_sym) { tag.name }
+              active_variant = params[:tag] == tag.name ? :primary : :outline
+              Link(href: memos_path(tag: tag.name)) do
+                Badge(variant: active_variant, size: :lg) { tag.name }
               end
             end
 
             if params[:tag].present?
-              link_to memos_path do
-                Badge(color: :destructive) { "Limpar filtro" }
+              Link(href: memos_path) do
+                Badge(variant: :destructive) { "Limpar filtro" }
               end
             end
           end
@@ -89,7 +83,7 @@ class Views::Memos::Index < Views::Base
         elsif params[:tag].present?
           p(class: "text-lg text-gray-600") do
             strong { "Memos com a tag: " }
-            Badge(color: :primary) { params[:tag] }
+            Badge(variant: :primary) { params[:tag] }
             span { " (#{@memos.count} #{@memos.count == 1 ? 'memo' : 'memos'})" }
           end
         elsif @show_archived
@@ -125,9 +119,7 @@ class Views::Memos::Index < Views::Base
       end
 
       div(class: "text-center pt-8") do
-        link_to new_memo_path do
-          Button(variant: :primary, size: :lg) { "Criar Novo Memo" }
-        end
+        Link(href: new_memo_path, variant: :primary, size: :lg) { "Criar Novo Memo" }
       end
     end
   end
