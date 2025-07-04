@@ -8,6 +8,14 @@ class MemosController < ApplicationController
 
     @tags = Tag.ordered
     @show_archived = params[:archived] == "true"
+
+    render Views::Memos::Index.new(
+      params: params,
+      memos: @memos,
+      notice: flash[:notice],
+      show_archived: @show_archived,
+      tags: @tags
+    )
   end
 
   def create
