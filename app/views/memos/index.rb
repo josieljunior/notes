@@ -19,7 +19,7 @@ class Views::Memos::Index < Views::Base
       end
 
       div(class: "text-center space-y-4") do
-        h1(class: "text-4xl font-bold text-gray-900") { "Notas" }
+        h1(class: "text-4xl font-bold text-gray-900") { "📝 Notas" }
 
         div(class: "flex justify-center gap-2") do
           Link(href: new_memo_path, variant: :primary, size: :lg) { "Criar Nova Nota" }
@@ -87,7 +87,6 @@ class Views::Memos::Index < Views::Base
           end
         end
 
-        # Pagination component
         if @pagination
           render Views::Shared::Pagination.new(
             pagination: @pagination,

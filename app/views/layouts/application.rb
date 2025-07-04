@@ -29,7 +29,7 @@ module Views
           end
 
           body do
-            main(class: "container mx-auto mt-28 px-5 flex", &block)
+            main(class: "container mx-auto mt-28 mb-28 px-5 flex", &block)
           end
         end
       end

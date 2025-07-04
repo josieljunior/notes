@@ -1,7 +1,7 @@
 class MemosController < ApplicationController
   include Pageable
 
-  MEMOS_PER_PAGE = 10
+  MEMOS_PER_PAGE = 8
 
   def index
     memos_collection = MemoSearch.find_by_search_and_tag(
