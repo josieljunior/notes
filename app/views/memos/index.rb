@@ -1,12 +1,13 @@
 class Views::Memos::Index < Views::Base
   attr_accessor :notice, :params
 
-  def initialize(memos:, notice:, params:, show_archived:, tags:)
+  def initialize(memos:, notice:, params:, show_archived:, tags:, pagination: nil)
     @memos = memos
     @notice = notice
     @params = params
     @show_archived = show_archived
     @tags = tags
+    @pagination = pagination
   end
 
   def view_template
@@ -85,6 +86,15 @@ class Views::Memos::Index < Views::Base
             end
           end
         end
+
+        # Pagination component
+        if @pagination
+          render Views::Shared::Pagination.new(
+            pagination: @pagination,
+            path: :memos_path,
+            **current_page_params
+          )
+        end
       else
         Card(class: "p-12 text-center") do
           div(class: "space-y-4") do
@@ -94,5 +104,15 @@ class Views::Memos::Index < Views::Base
         end
       end
     end
+  end
+
+  private
+
+  def current_page_params
+    {
+      search: params[:search],
+      tag: params[:tag],
+      archived: params[:archived]
+    }.compact
   end
 end

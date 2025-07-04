@@ -1,10 +1,19 @@
 class MemosController < ApplicationController
+  include Pageable
+
+  MEMOS_PER_PAGE = 10
+
   def index
-    @memos = MemoSearch.find_by_search_and_tag(
+    memos_collection = MemoSearch.find_by_search_and_tag(
       search: params[:search],
       tag: params[:tag],
       archived: params[:archived] == "true"
     ).includes(:tags)
+
+    @pagination, @memos = paginate(
+      collection: memos_collection,
+      params: page_params
+    )
 
     @tags = Tag.ordered
     @show_archived = params[:archived] == "true"
@@ -12,6 +21,7 @@ class MemosController < ApplicationController
     render Views::Memos::Index.new(
       params: params,
       memos: @memos,
+      pagination: @pagination,
       notice: flash[:notice],
       show_archived: @show_archived,
       tags: @tags
@@ -96,5 +106,9 @@ class MemosController < ApplicationController
 
   def memo_params
     params.require(:memo).permit(:title, :content, tag_ids: [])
+  end
+
+  def page_params
+    params.permit(:page).merge(per_page: MEMOS_PER_PAGE)
   end
 end
