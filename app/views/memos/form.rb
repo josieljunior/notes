@@ -38,29 +38,25 @@ class Views::Memos::Form < Views::Base
             name: "memo[content]",
             value: @memo.content,
             placeholder: "Digite o conteúdo da nota...",
-            rows: 8,
-            class: "w-full"
+            rows: 8
           )
         end
 
         if @tags.any?
           div do
             label(class: "block text-sm font-medium text-gray-700 mb-3") { "Tags" }
-            div(class: "grid grid-cols-2 md:grid-cols-3 gap-3") do
-              @tags.each do |tag|
-                div(class: "flex items-center space-x-2") do
-                  input(
-                    type: "checkbox",
-                    name: "memo[tag_ids][]",
-                    value: tag.id,
-                    id: "tag_#{tag.id}",
-                    checked: @memo.tag_ids.include?(tag.id),
-                    class: "rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  )
-                  label(
-                    for: "tag_#{tag.id}",
-                    class: "text-sm text-gray-700 cursor-pointer"
-                  ) { tag.name.capitalize }
+            CheckboxGroup(data_required: false) do
+              div(class: "grid grid-cols-2 md:grid-cols-3 gap-3") do
+                @tags.each do |tag|
+                  div(class: "flex flex-row items-center gap-2") do
+                    Checkbox(
+                      value: tag.id,
+                      id: "tag_#{tag.id}",
+                      name: "memo[tag_ids][]",
+                      checked: @memo.tag_ids.include?(tag.id)
+                    )
+                    FormFieldLabel(for: "tag_#{tag.id}") { tag.name.capitalize }
+                  end
                 end
               end
             end
