@@ -24,13 +24,22 @@ class MemosController < ApplicationController
       redirect_to memos_path, notice: "Nota criada com sucesso."
     else
       @memo = result.model
-      render :new, alert: result.errors
+      @tags = Tag.ordered
+      render Views::Memos::New.new(
+        memo: @memo,
+        tags: @tags
+      )
     end
   end
 
   def new
     @memo = Memo.new
     @tags = Tag.ordered
+
+    render Views::Memos::New.new(
+      memo: @memo,
+      tags: @tags
+    )
   end
 
   def show
@@ -45,6 +54,11 @@ class MemosController < ApplicationController
   def edit
     @memo = Memo.find(params[:id])
     @tags = Tag.ordered
+
+    render Views::Memos::Edit.new(
+      memo: @memo,
+      tags: @tags
+    )
   end
 
   def update
@@ -52,7 +66,11 @@ class MemosController < ApplicationController
     if @memo.update(memo_params)
       redirect_to @memo, notice: "Memo atualizado com sucesso."
     else
-      render :edit
+      @tags = Tag.ordered
+      render Views::Memos::Edit.new(
+        memo: @memo,
+        tags: @tags
+      )
     end
   end
 
