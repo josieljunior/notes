@@ -63,3 +63,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "ruby_ui", "~> 1.0", :group => :development, :require => false
+
+gem "phlex-rails", "~> 2.3"
+
+gem "tailwind_merge", "~> 1.3"
