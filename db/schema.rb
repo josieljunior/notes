@@ -16,7 +16,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_014035) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "archived", default: false, null: false
+    t.boolean "archived", default: false
   end
 
   create_table "memos_tags", id: false, force: :cascade do |t|
