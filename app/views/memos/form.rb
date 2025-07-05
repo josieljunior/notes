@@ -9,19 +9,20 @@ class Views::Memos::Form < Views::Base
   def view_template
     Card(class: "p-8") do
       if @memo.errors.any?
-        div(class: "mb-6 p-4 bg-red-50 border border-red-200 rounded-lg") do
-          h3(class: "text-lg font-semibold text-red-800 mb-2") do
-            "#{@memo.errors.count} erro#{@memo.errors.count > 1 ? 's' : ''} #{@memo.errors.count > 1 ? 'impediram' : 'impediu'} que esta nota fosse salva:"
-          end
-          ul(class: "list-disc list-inside text-red-700 space-y-1") do
-            @memo.errors.full_messages.each do |message|
-              li { message }
+        Alert(variant: :destructive, class: "mb-6") do
+          alert_icon
+          AlertTitle { "Erro ao salvar a nota:" }
+          AlertDescription do
+            ul(class: "list-disc list-inside space-y-1 mt-2") do
+              @memo.errors.full_messages.each do |message|
+                li { message }
+              end
             end
           end
         end
       end
 
-      form_with model: @memo, url: @url, method: @method, local: true, class: "space-y-6" do |form|
+      form_with model: @memo, url: @url, method: @method, local: true, data: { turbo: false }, class: "space-y-6" do |form|
         div do
           label(class: "block text-sm font-medium text-gray-700 mb-2") { "Título" }
           Input(
@@ -71,6 +72,23 @@ class Views::Memos::Form < Views::Base
           Link(href: @memo.persisted? ? memo_path(@memo) : memos_path, variant: :outline) { "Cancelar" }
         end
       end
+    end
+  end
+
+  private
+
+  def alert_icon
+    svg(
+      class: "h-4 w-4",
+      fill: "currentColor",
+      viewBox: "0 0 24 24",
+      xmlns: "http://www.w3.org/2000/svg"
+    ) do |s|
+      s.path(
+        fill_rule: "evenodd",
+        d: "M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z",
+        clip_rule: "evenodd"
+      )
     end
   end
 end
