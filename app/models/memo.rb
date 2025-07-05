@@ -7,7 +7,7 @@ class Memo < ApplicationRecord
   scope :active, -> { where(archived: false) }
   scope :archived, -> { where(archived: true) }
   scope :tagged_with, ->(tag_name) {
-    joins(:tags).where(tags: { name: tag_name.downcase.strip })
+    joins(:tags).where(tags: { name: tag_name })
   }
   scope :search_by_keyword, ->(query) {
     where("title LIKE ? OR content LIKE ?", "%#{query}%", "%#{query}%") if query.present?

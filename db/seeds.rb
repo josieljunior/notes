@@ -1,14 +1,3 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
-# Criando tags predefinidas
 tags = [
   "Trabalho",
   "Pessoal",
@@ -17,7 +6,7 @@ tags = [
   "Projeto",
   "Ideia",
   "Reunião",
-  "Rarefa",
+  "Tarefa",
   "Estudo",
   "Lembrete",
   "Compras",
@@ -350,7 +339,7 @@ sample_memos += [
   }
 ]
 
-(sample_memos).each do |memo_data|
+sample_memos.each do |memo_data|
   memo = Memo.find_or_create_by!(title: memo_data[:title]) do |m|
     m.content = memo_data[:content]
     m.archived = memo_data[:archived] || false
