@@ -24,6 +24,8 @@ cd notes
 
 # Inicie o servidor
 bin/dev
+
+# Acessar http://localhost:3000/
 ```
 
 ## ✅ Funcionalidades implementadas
