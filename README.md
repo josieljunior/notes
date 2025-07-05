@@ -22,11 +22,6 @@ cd notes
 # abra o VSCode
 # Inicie o projeto dentro do dev container
 
-# Configure o banco de dados
-rails db:create
-rails db:migrate
-rails db:seed
-
 # Inicie o servidor
 bin/dev
 ```
